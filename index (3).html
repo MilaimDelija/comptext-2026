@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gugu (2026) — Generative Language Models and Scientific Discourse</title>
+<meta name="description" content="Interactive companion to: Generative Language Models and the Transformation of Scientific Discourse. Edlira Gugu, COMPTEXT 2026, University of Birmingham.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0A3D62;--teal:#1A5276;--mid:#2980B9;
+  --bg:#FAFAFA;--surface:#FFFFFF;--border:#E5E7EB;
+  --text:#111827;--muted:#6B7280;--light:#F3F4F6;
+  --up:#16a34a;--dn:#dc2626;--warn:#d97706;--info:#1d4ed8;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+a{color:var(--info)}
+header{background:var(--navy);color:#fff;padding:2.5rem 0 2rem}
+.wrap{max-width:960px;margin:0 auto;padding:0 1.5rem}
+.conf-tag{font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.65;margin-bottom:.5rem}
+h1.hero{font-size:clamp(17px,2.5vw,24px);font-weight:600;line-height:1.35;max-width:700px;margin-bottom:.75rem}
+.author{font-size:13px;opacity:.8}
+nav{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;overflow-x:auto}
+.nav-inner{display:flex;gap:0;white-space:nowrap;max-width:960px;margin:0 auto;padding:0 1.5rem}
+.nb{padding:14px 16px;font-size:13px;font-weight:500;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:all .15s}
+.nb:hover{color:var(--text)}.nb.on{color:var(--navy);border-bottom-color:var(--navy)}
+main{max-width:960px;margin:2rem auto;padding:0 1.5rem}
+.sec{display:none}.sec.on{display:block}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.5rem;margin-bottom:.875rem}
+.card-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.04em}
+.muted{font-size:13px;color:var(--muted);line-height:1.7}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.met{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1rem 1.2rem}
+.met-lbl{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:.35rem}
+.met-val{font-size:24px;font-weight:600;color:var(--navy)}
+.met-sub{font-size:12px;color:var(--muted);margin-top:.2rem}
+.abstract{border-left:3px solid var(--navy);padding:1rem 1.25rem;background:var(--surface);border-radius:0 10px 10px 0;font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:1.5rem}
+.sh{font-size:17px;font-weight:600;color:var(--navy);margin-bottom:1.25rem;padding-bottom:.625rem;border-bottom:2px solid var(--navy)}
+.step{display:flex;gap:16px;padding:1.25rem 0;border-bottom:1px solid var(--border)}
+.step:last-child{border-bottom:none}
+.snum{width:32px;height:32px;min-width:32px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+.sbody{font-size:14px;color:var(--muted);line-height:1.7;padding-top:4px}
+.sbody strong{color:var(--text)}
+.frow{display:flex;align-items:baseline;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+.frow:last-child{border-bottom:none}
+.fnum{font-size:20px;font-weight:700;min-width:80px}
+.fdesc{font-size:13px;color:var(--muted)}
+.up{color:var(--up)}.dn{color:var(--dn)}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.blbl{font-size:12px;color:var(--muted);width:210px;flex-shrink:0;text-align:right}
+.btrack{flex:1;height:8px;background:var(--light);border-radius:4px;overflow:hidden}
+.bfill{height:100%;border-radius:4px}
+.bval{font-size:12px;font-weight:600;min-width:52px}
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:1rem}
+.tc{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1rem 1.1rem}
+.tc-name{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:.35rem}
+.tc-words{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:.5rem}
+.tdelta{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;display:inline-block}
+.td-dn{background:#fee2e2;color:#991b1b}.td-n{background:var(--light);color:var(--muted)}
+.tmpl{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.25rem;margin-bottom:.75rem}
+.th{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;flex-wrap:wrap;gap:.5rem}
+.tn{font-size:14px;font-weight:600;color:var(--navy)}
+.badge{font-size:11px;font-weight:600;padding:3px 9px;border-radius:5px}
+.bu{background:#dcfce7;color:#15803d}
+.tc2{font-size:12px;color:var(--muted);margin-bottom:.5rem}
+.te{font-size:13px;color:var(--muted);border-left:2px solid var(--border);padding-left:.75rem;font-style:italic;line-height:1.7}
+.di{padding:1.25rem 0;border-bottom:1px solid var(--border)}
+.di:last-child{border-bottom:none}
+.dq{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:.5rem;display:flex;gap:10px}
+.dqn{background:var(--navy);color:#fff;border-radius:50%;width:24px;height:24px;min-width:24px;display:flex;align-items:center;justify-content:center;font-size:12px}
+.da{font-size:13px;color:var(--muted);line-height:1.75;padding-left:34px}
+.ritem{font-size:13px;color:var(--muted);line-height:1.6;padding:8px 0;border-bottom:1px solid var(--border)}
+.ritem:last-child{border-bottom:none}
+
+/* LAB */
+.lab-tabs{display:flex;gap:4px;margin-bottom:1.25rem;border-bottom:1px solid var(--border);padding-bottom:0}
+.lt{padding:10px 14px;font-size:13px;font-weight:500;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px;white-space:nowrap}
+.lt.on{color:var(--text);border-bottom-color:var(--text)}
+.lt:hover:not(.on){color:var(--text)}
+.lp{display:none}.lp.on{display:block}
+.lbl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:.4rem}
+textarea,input[type=text]{width:100%;padding:10px 12px;font-size:13px;font-family:inherit;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:8px;line-height:1.6}
+textarea{resize:vertical;min-height:110px}
+textarea:focus,input:focus{outline:none;border-color:var(--navy)}
+.run-btn{padding:9px 20px;font-size:13px;font-weight:500;cursor:pointer;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);transition:all .15s}
+.run-btn:hover{background:var(--light)}.run-btn:disabled{opacity:.4;cursor:not-allowed}
+.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:.75rem 0}
+.mg{background:var(--light);border-radius:8px;padding:10px 12px;text-align:center}
+.mgv{font-size:22px;font-weight:600}.mgl{font-size:11px;color:var(--muted);margin-top:3px}
+.verdict{display:flex;gap:10px;align-items:flex-start;padding:.75rem 1rem;border-radius:8px;font-size:13px;margin-top:.75rem;line-height:1.5}
+.vok{background:#f0fdf4;color:#166534}.vwarn{background:#fefce8;color:#854d0e}.vbad{background:#fef2f2;color:#991b1b}
+.mrow{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px}
+.mrow:last-child{border-bottom:none}
+.hit{color:var(--dn);font-weight:500}
+.rbox{background:var(--light);border-radius:8px;padding:1rem;font-size:13px;color:var(--muted);line-height:1.75;margin-top:.75rem;white-space:pre-wrap}
+.two-compare{display:grid;grid-template-columns:1fr 1fr;gap:.875rem}
+.col-lbl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem}
+.ctext{background:var(--light);border-radius:8px;padding:.875rem;font-size:12px;line-height:1.75;color:var(--muted);min-height:120px}
+mark.llm{background:#fee2e2;color:#7f1d1d;border-radius:2px;padding:0 2px}
+.spin{display:inline-block;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.progress{height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:5px}
+.pf{height:100%;border-radius:3px}
+.smatch{border:1px solid var(--border);border-radius:8px;padding:.875rem 1rem;margin-bottom:.5rem}
+.sbar{display:flex;align-items:center;gap:8px;font-size:12px;margin-top:.4rem}
+.strack{flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.sfill{height:100%;border-radius:3px;background:var(--info)}
+footer{background:var(--navy);color:rgba(255,255,255,.65);text-align:center;padding:2rem 1.5rem;font-size:12px;margin-top:3rem}
+footer strong{color:#fff}
+@media(max-width:640px){
+  .grid2,.grid4,.two-compare{grid-template-columns:1fr}
+  .grid3{grid-template-columns:1fr 1fr}
+  .mgrid{grid-template-columns:repeat(3,1fr)}
+  .blbl{width:110px;font-size:11px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="conf-tag">COMPTEXT 2026 · University of Birmingham</p>
+    <h1 class="hero">Generative Language Models and the Transformation of Scientific Discourse: A Computational Text Analysis</h1>
+    <p class="author">Edlira Gugu · University "Aleksandër Xhuvani," Elbasan, Albania · edlira.gugu@uniel.edu.al</p>
+  </div>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <button class="nb on" data-s="overview">Overview</button>
+    <button class="nb" data-s="argument">Argument</button>
+    <button class="nb" data-s="findings">Findings</button>
+    <button class="nb" data-s="topics">Topics</button>
+    <button class="nb" data-s="templates">Templates</button>
+    <button class="nb" data-s="discussion">Discussion</button>
+    <button class="nb" data-s="lab">Live lab</button>
+    <button class="nb" data-s="references">References</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- OVERVIEW -->
+<section id="overview" class="sec on">
+  <h2 class="sh">Overview</h2>
+  <div class="abstract">This paper investigates how generative language models are transforming the linguistic and discursive features of contemporary scientific texts. Using a corpus of 15,154 articles partitioned into pre-LLM (2020–2022) and post-LLM (2023–2024) periods, it documents consistent shifts toward homogenization: reduced lexical diversity, increased semantic similarity, and growing reliance on formulaic argumentative structures. Rather than treating LLMs as neutral tools, the paper argues they function as <em>discursive actors</em> actively shaping scientific communication.</div>
+  <div class="grid4" style="margin-bottom:1rem">
+    <div class="met"><div class="met-lbl">Corpus</div><div class="met-val">15,154</div><div class="met-sub">articles · ~94M tokens</div></div>
+    <div class="met"><div class="met-lbl">Disciplines</div><div class="met-val">3</div><div class="met-sub">Linguistics · Social Sci · CS</div></div>
+    <div class="met"><div class="met-lbl">Time periods</div><div class="met-val">2</div><div class="met-sub">Pre-LLM & Post-LLM</div></div>
+    <div class="met"><div class="met-lbl">Topics (LDA)</div><div class="met-val">30</div><div class="met-sub">k=30, Cv=0.524</div></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><div class="card-title">Pre-LLM corpus</div><p class="muted">January 2020 – October 2022 · n = 7,611 articles. Buffer period excluded (Nov 2022 – Feb 2023).</p></div>
+    <div class="card"><div class="card-title">Post-LLM corpus</div><p class="muted">March 2023 – September 2024 · n = 7,543 articles. Post-ChatGPT widespread adoption.</p></div>
+  </div>
+  <div class="card" style="margin-top:.25rem"><div class="card-title">Methods</div><p class="muted">MATTR · Hapax Richness · Yule's K · Log-likelihood keyword analysis · LDA topic modeling · Sentence-BERT embeddings (all-mpnet-base-v2) · HDBSCAN rhetorical template detection · Welch's t-tests with Bonferroni correction · Cohen's d effect sizes</p></div>
+</section>
+
+<!-- ARGUMENT -->
+<section id="argument" class="sec">
+  <h2 class="sh">The argument</h2>
+  <div class="step"><div class="snum">1</div><div class="sbody"><strong>LLMs are not neutral tools.</strong> When thousands of researchers use models to draft and polish prose, the models' statistical preferences accumulate into measurable shifts in the linguistic character of scientific literature — without deliberate choice by individual authors.</div></div>
+  <div class="step"><div class="snum">2</div><div class="sbody"><strong>The scale is independently documented.</strong> Kobak et al. (2025) found LLM markers in ≥13.5% of 2024 biomedical abstracts. Liang et al. (2025) estimate up to 22% of CS papers are LLM-modified. These are not marginal phenomena.</div></div>
+  <div class="step"><div class="snum">3</div><div class="sbody"><strong>The effects are measurable in the corpus.</strong> Lexical diversity declines across all three disciplines. Formulaic phrases increase dramatically ("potentially" +37.5%, "in recent years" +34%). Abstract semantic similarity rises +9.3%. Rhetorical template coverage grows from 32% to 41% of abstracts.</div></div>
+  <div class="step"><div class="snum">4</div><div class="sbody"><strong>Feedback loops amplify the effect.</strong> Guo et al. (2024) demonstrate experimentally that training language models on synthetic outputs of predecessors produces consistent further decreases in diversity — the "curious decline of linguistic diversity."</div></div>
+  <div class="step"><div class="snum">5</div><div class="sbody"><strong>The epistemic stakes are real.</strong> Messeri & Crockett (2024, <em>Nature</em>) warn of "monocultures of knowing." Doshi & Hauser (2024) show a social dilemma: LLMs improve individual output while reducing collective diversity. Anderson et al. (2024) locate homogenization at the group level.</div></div>
+  <div class="step"><div class="snum">6</div><div class="sbody"><strong>Conclusion for computational text analysis.</strong> We must reconsider not only how we analyse texts but what kind of texts we are increasingly analysing. Scientific texts are co-produced through human-algorithm collaboration.</div></div>
+</section>
+
+<!-- FINDINGS -->
+<section id="findings" class="sec">
+  <h2 class="sh">Key findings</h2>
+  <div class="grid2">
+    <div class="card"><div class="card-title">Lexical diversity</div>
+      <div class="frow"><div class="fnum dn">−2.6%</div><div class="fdesc">Moving-Average TTR · d = 0.23</div></div>
+      <div class="frow"><div class="fnum dn">−4.5%</div><div class="fdesc">Hapax richness · d = 0.19</div></div>
+      <div class="frow"><div class="fnum dn">−3.1%</div><div class="fdesc">Yule's K · d = 0.16</div></div>
+    </div>
+    <div class="card"><div class="card-title">Semantic & rhetorical</div>
+      <div class="frow"><div class="fnum up">+9.3%</div><div class="fdesc">Abstract similarity · d = 0.31</div></div>
+      <div class="frow"><div class="fnum up">+28.1%</div><div class="fdesc">Template coverage (32% → 41%)</div></div>
+      <div class="frow"><div class="fnum dn">−12.6%</div><div class="fdesc">Passive voice sentences · d = 0.17</div></div>
+    </div>
+  </div>
+  <div class="card"><div class="card-title">Epistemic marker shifts</div><div id="ep-bars" style="margin-top:.75rem"></div></div>
+  <div class="card"><div class="card-title">Formulaic phrase increases</div><div id="ph-bars" style="margin-top:.75rem"></div></div>
+  <div class="card"><div class="card-title">Effect strongest in methods sections</div><p class="muted">Within-topic MATTR decline: ML methods −14.2% · Survey methodology −11.7% · Clinical protocols −9.8% · Policy debate −3.1% ns · Theoretical frameworks −2.4% ns. Homogenization concentrates in technical writing, not argumentative prose.</p></div>
+</section>
+
+<!-- TOPICS -->
+<section id="topics" class="sec">
+  <h2 class="sh">LDA topic model</h2>
+  <div class="grid4" style="margin-bottom:1rem">
+    <div class="met"><div class="met-lbl">Topics (k)</div><div class="met-val">30</div><div class="met-sub">Selected by Cv coherence</div></div>
+    <div class="met"><div class="met-lbl">Pre-LLM Cv</div><div class="met-val">0.524</div><div class="met-sub">Best across k ∈ {20–50}</div></div>
+    <div class="met"><div class="met-lbl">Matched pairs</div><div class="met-val">24/30</div><div class="met-sub">JSD &lt; 0.1 threshold</div></div>
+    <div class="met"><div class="met-lbl">Emerging topics</div><div class="met-val">2</div><div class="met-sub">LLMs · Pandemic response</div></div>
+  </div>
+  <div class="topic-grid">
+    <div class="tc"><div class="tc-name">Machine learning methods</div><div class="tc-words">model · algorithm · neural · training · accuracy · loss · gradient · feature · classification · epoch</div><span class="tdelta td-dn">MATTR −14.2%</span></div>
+    <div class="tc"><div class="tc-name">Survey methodology</div><div class="tc-words">survey · respondent · questionnaire · sample · response · attitude · scale · rating · measure · item</div><span class="tdelta td-dn">MATTR −11.7%</span></div>
+    <div class="tc"><div class="tc-name">Corpus linguistics</div><div class="tc-words">corpus · frequency · token · collocation · concordance · register · genre · annotation · parser · lemma</div><span class="tdelta td-dn">MATTR −8.4%</span></div>
+    <div class="tc"><div class="tc-name">Discourse analysis</div><div class="tc-words">discourse · rhetoric · frame · narrative · media · audience · text · language · communication · identity</div><span class="tdelta td-dn">MATTR −3.8%</span></div>
+    <div class="tc"><div class="tc-name">Theoretical frameworks</div><div class="tc-words">theory · framework · concept · perspective · critique · ontology · epistemology · paradigm · structure · discourse</div><span class="tdelta td-dn">MATTR −2.4%</span></div>
+    <div class="tc"><div class="tc-name">Large language models</div><div class="tc-words">llm · prompt · chatgpt · generation · hallucination · alignment · fine-tune · instruction · capability · evaluate</div><span class="tdelta td-n">Post-LLM only</span></div>
+  </div>
+</section>
+
+<!-- TEMPLATES -->
+<section id="templates" class="sec">
+  <h2 class="sh">Rhetorical templates</h2>
+  <div class="grid4" style="margin-bottom:1rem">
+    <div class="met"><div class="met-lbl">Pre-LLM</div><div class="met-val">18</div><div class="met-sub">32% abstract coverage</div></div>
+    <div class="met"><div class="met-lbl">Post-LLM</div><div class="met-val">21</div><div class="met-sub">41% abstract coverage</div></div>
+    <div class="met"><div class="met-lbl">Increase</div><div class="met-val up">+9 pp</div><div class="met-sub">χ² = 127.4, p &lt; .001</div></div>
+    <div class="met"><div class="met-lbl">Validation</div><div class="met-val">κ=0.76</div><div class="met-sub">Two independent coders</div></div>
+  </div>
+  <div class="tmpl"><div class="th"><span class="tn">E-01 — Background → Gap → Purpose</span><span class="badge bu">+5.8 pp</span></div><div class="tc2">12.4% → 18.2% of abstracts · All disciplines</div><div class="te">"While previous studies have examined X, limited attention has been paid to Y."<br>"This study aims to address this gap by investigating Z."<br>"Our findings suggest that W, which has important implications for V."</div></div>
+  <div class="tmpl"><div class="th"><span class="tn">E-02 — Research question → Methods → Findings</span><span class="badge bu">+3.6 pp</span></div><div class="tc2">9.1% → 12.7% · CS &amp; Linguistics</div><div class="te">"We investigate whether X can be predicted using Y."<br>"Using a dataset of N samples, we apply [technique] to analyse Z."</div></div>
+  <div class="tmpl"><div class="th"><span class="tn">E-03 — "In recent years" opening</span><span class="badge bu">+2.1 pp</span></div><div class="tc2">7.2% → 9.3% · Uniform across disciplines</div><div class="te">"In recent years, the increasing prevalence of X has raised significant concerns."<br>"Despite growing interest in Y, our understanding of Z remains limited."</div></div>
+  <div class="tmpl"><div class="th"><span class="tn">E-05 — Contribution enumeration</span><span class="badge bu">+1.2 pp</span></div><div class="tc2">5.9% → 7.1% · Conclusion sections</div><div class="te">"This paper makes three contributions."<br>"First, we demonstrate X. Second, we show Y. Third, we provide Z."</div></div>
+</section>
+
+<!-- DISCUSSION -->
+<section id="discussion" class="sec">
+  <h2 class="sh">Discussion</h2>
+  <div class="di"><div class="dq"><div class="dqn">1</div>Are LLMs genuinely discourse agents?</div><div class="da">When statistical preferences encoded in training data reproduce in millions of assisted writing sessions, they accumulate into aggregate shifts in the scholarly record. This is structurally different from editorial gatekeeping or disciplinary convention — it is an algorithmic force operating at scale without deliberate authorial choice.</div></div>
+  <div class="di"><div class="dq"><div class="dqn">2</div>Is homogenization harmful?</div><div class="da">The evidence suggests a paradox. Doshi & Hauser (2024) demonstrate that LLMs improve individual output while reducing collective diversity. Anderson et al. (2024) locate this at the group level. The decline of "arguably" (−19%) is a concrete instance — a marker of authorial contestation disappearing from the record.</div></div>
+  <div class="di"><div class="dq"><div class="dqn">3</div>What are the epistemic stakes?</div><div class="da">Messeri & Crockett (2024, <em>Nature</em>) warn of "monocultures of knowing" — situations in which questions and methods most tractable to computational tools crowd out alternative epistemologies. Sourati et al. (2026) document that LLM-induced homogenization already measurably reduces stylistic variability in real-world scientific writing.</div></div>
+  <div class="di"><div class="dq"><div class="dqn">4</div>What should computational text analysts do?</div><div class="da">Reconsider not only how we analyse texts, but what kind of texts we are increasingly analysing. Interpretive validity, historical comparability, and methodological transparency all require fresh consideration when texts are co-produced through human-algorithm collaboration.</div></div>
+</section>
+
+<!-- LIVE LAB -->
+<section id="lab" class="sec">
+  <h2 class="sh">Live laboratory — test the arguments</h2>
+  <p class="muted" style="margin-bottom:1rem">Each tool tests a specific claim from the paper with your own text. Metrics are calculated in your browser. The AI interpretation uses Groq LLaMA 3.3 70B via a server proxy — no API key needed.</p>
+
+
+  <div class="lab-tabs">
+    <button class="lt on" data-lp="analyzer">Text analyzer</button>
+    <button class="lt" data-lp="compare">Generate & compare</button>
+    <button class="lt" data-lp="template">Template detector</button>
+    <button class="lt" data-lp="markers">Marker probe</button>
+  </div>
+
+  <!-- ANALYZER -->
+  <div id="analyzer" class="lp on">
+    <div class="card">
+      <div class="lbl">Paste any scientific abstract or paragraph</div>
+      <textarea id="an-txt" placeholder="Paste a scientific abstract here — from a pre-2022 paper, a recent one, or text you wrote. The analyzer calculates lexical diversity, detects LLM-characteristic phrases, and situates your text against the corpus statistics in the paper."></textarea>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.6rem">
+        <span id="an-wc" style="font-size:12px;color:var(--muted)">0 words</span>
+        <button class="run-btn" id="an-btn" data-lbl="Analyze text" onclick="runAnalyzer()">Analyze text</button>
+      </div>
+    </div>
+    <div id="an-out" style="display:none">
+      <div class="mgrid">
+        <div class="mg"><div class="mgv" id="an-ttr">—</div><div class="mgl">Type-Token Ratio</div></div>
+        <div class="mg"><div class="mgv" id="an-hap">—</div><div class="mgl">Hapax richness</div></div>
+        <div class="mg"><div class="mgv" id="an-llm">—</div><div class="mgl">LLM phrase score</div></div>
+      </div>
+      <div id="an-vd" class="verdict vwarn"><span id="an-vt">—</span></div>
+      <div class="card" style="margin-top:.75rem"><div class="lbl">Detected LLM-characteristic phrases</div><div id="an-ph"></div></div>
+      <div class="card"><div class="lbl">Claude's interpretation</div><div id="an-ai" class="rbox">—</div></div>
+    </div>
+  </div>
+
+  <!-- COMPARE -->
+  <div id="compare" class="lp">
+    <div class="card">
+      <div class="lbl">Topic for abstract generation</div>
+      <input type="text" id="cmp-topic" placeholder="e.g. machine learning in education, discourse analysis, climate policy adaptation">
+      <div style="display:flex;justify-content:flex-end;margin-top:.6rem">
+        <button class="run-btn" id="cmp-btn" data-lbl="Generate & compare" onclick="runCompare()">Generate pre-LLM &amp; post-LLM versions</button>
+      </div>
+    </div>
+    <div id="cmp-out" style="display:none">
+      <div class="two-compare">
+        <div><div class="col-lbl" style="color:var(--up)">Pre-LLM style (2020–22)</div><div class="ctext" id="cmp-pre">—</div></div>
+        <div><div class="col-lbl" style="color:var(--dn)">Post-LLM style (2023–24)</div><div class="ctext" id="cmp-post">—</div></div>
+      </div>
+      <div class="card" style="margin-top:.875rem"><div class="lbl">Measured differences</div><div id="cmp-diffs"></div></div>
+      <div class="card"><div class="lbl">What this demonstrates</div><div id="cmp-explain" class="rbox">—</div></div>
+    </div>
+  </div>
+
+  <!-- TEMPLATE -->
+  <div id="template" class="lp">
+    <div class="card">
+      <div class="lbl">Paste an abstract to identify its rhetorical template</div>
+      <textarea id="tpl-txt" placeholder="Paste an abstract. The detector identifies which of the 23 templates from the paper it most closely matches and shows whether that template increased post-LLM."></textarea>
+      <div style="display:flex;justify-content:flex-end;margin-top:.6rem">
+        <button class="run-btn" id="tpl-btn" data-lbl="Detect template" onclick="runTemplate()">Detect template</button>
+      </div>
+    </div>
+    <div id="tpl-out" style="display:none">
+      <div class="lbl" style="margin-bottom:.5rem">Best matching templates</div>
+      <div id="tpl-matches"></div>
+      <div class="card" style="margin-top:.75rem"><div class="lbl">Interpretation</div><div id="tpl-expl" class="rbox">—</div></div>
+    </div>
+  </div>
+
+  <!-- MARKERS -->
+  <div id="markers" class="lp">
+    <div class="card">
+      <div class="lbl">Paste text to probe epistemic markers</div>
+      <textarea id="mk-txt" placeholder="Paste any scientific text. The probe counts every epistemic marker from the paper and compares each frequency against pre-LLM and post-LLM corpus baselines."></textarea>
+      <div style="display:flex;justify-content:flex-end;margin-top:.6rem">
+        <button class="run-btn" id="mk-btn" data-lbl="Probe markers" onclick="runMarkers()">Probe markers</button>
+      </div>
+    </div>
+    <div id="mk-out" style="display:none">
+      <div class="card"><div class="lbl">Epistemic marker frequencies vs corpus baselines</div><div id="mk-tbl"></div></div>
+      <div id="mk-vd" class="verdict vwarn" style="margin-top:.75rem"><span id="mk-vt">—</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section id="references" class="sec">
+  <h2 class="sh">Key references</h2>
+  <div class="card">
+    <div class="ritem"><strong>Anderson, B. R., Shah, J. H., &amp; Kreminski, M. (2024).</strong> Homogenization effects of large language models on human creative ideation. <em>C&amp;C '24</em>. ACM. https://doi.org/10.1145/3635636.3656204</div>
+    <div class="ritem"><strong>Doshi, A. R., &amp; Hauser, O. P. (2024).</strong> Generative AI enhances individual creativity but reduces the collective diversity of novel content. <em>Science Advances</em>, 10(28), eadn5290.</div>
+    <div class="ritem"><strong>Guo, Y., Shang, G., Vazirgiannis, M., &amp; Clavel, C. (2024).</strong> The curious decline of linguistic diversity: Training language models on synthetic text. <em>Findings of ACL: NAACL 2024</em>.</div>
+    <div class="ritem"><strong>Guo, Y., Shang, G., &amp; Clavel, C. (2025).</strong> Benchmarking linguistic diversity of large language models. <em>Transactions of the ACL</em>, 13, 1507–1526.</div>
+    <div class="ritem"><strong>Kobak, D., González-Márquez, R., Horvát, E.-Á., &amp; Lause, J. (2025).</strong> Delving into LLM-assisted writing in biomedical publications through excess vocabulary. <em>Science Advances</em>, 11(27), eadt3813.</div>
+    <div class="ritem"><strong>Liang, W., et al. (2024).</strong> Monitoring AI-modified content at scale. <em>ICML 2024</em>, Vol. 235. PMLR.</div>
+    <div class="ritem"><strong>Liang, W., et al. (2025).</strong> Quantifying large language model usage in scientific papers. <em>Nature Human Behaviour</em>. https://doi.org/10.1038/s41562-025-02273-8</div>
+    <div class="ritem"><strong>Messeri, L., &amp; Crockett, M. J. (2024).</strong> Artificial intelligence and illusions of understanding in scientific research. <em>Nature</em>, 627(8002), 49–58.</div>
+    <div class="ritem"><strong>Sourati, Z., Ziabari, A. S., &amp; Dehghani, M. (2026).</strong> The homogenizing effect of large language models on human expression and thought. <em>Trends in Cognitive Sciences</em>.</div>
+  </div>
+  <div class="card"><div class="card-title">Supplementary materials (figshare)</div><p class="muted">Appendix A: Corpus metadata · B: Preprocessing code · C: Extended statistics · D: LDA topics · E: Rhetorical template catalogue · F: Analysis code<br><br><a href="https://doi.org/10.6084/m9.figshare.32411658">https://doi.org/10.6084/m9.figshare.32411658</a></p></div>
+</section>
+
+</main>
+
+<footer>
+  <strong>Edlira Gugu</strong> · University "Aleksandër Xhuvani," Elbasan, Albania<br>
+  Presented at COMPTEXT 2026, University of Birmingham, UK<br>
+  <span style="margin-top:.4rem;display:block">Supplementary materials on figshare · DOI: 10.6084/m9.figshare.32411658</span>
+</footer>
+
+<script>
+// NAV
+document.querySelectorAll('.nb').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.nb').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.sec').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');
+  document.getElementById(b.dataset.s).classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}));
+
+// LAB TABS
+document.querySelectorAll('.lt').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.lt').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.lp').forEach(x=>x.classList.remove('on'));
+  t.classList.add('on');
+  document.getElementById(t.dataset.lp).classList.add('on');
+}));
+
+// FINDINGS BARS
+function buildBars(id,data,max,col){
+  const el=document.getElementById(id);if(!el||el.innerHTML)return;
+  data.forEach(d=>{
+    const w=Math.round(Math.abs(d.v)/max*100);
+    const c=d.dir==='up'?col.up:col.dn;
+    el.innerHTML+=`<div class="bar-row"><div class="blbl">${d.l}</div><div class="btrack"><div class="bfill" style="width:${w}%;background:${c}"></div></div><div class="bval" style="color:${c}">${d.dir==='up'?'+':''}${d.v}%</div></div>`;
+  });
+}
+document.querySelector('[data-s="findings"]').addEventListener('click',()=>{
+  setTimeout(()=>{
+    buildBars('ep-bars',[
+      {l:'"potentially"',v:37.5,dir:'up'},{l:'"clearly"',v:15.0,dir:'up'},
+      {l:'"might"',v:13.6,dir:'up'},{l:'"indeed"',v:12.0,dir:'up'},
+      {l:'"arguably"',v:-19.0,dir:'dn'},{l:'"may"',v:-10.9,dir:'dn'},{l:'"perhaps"',v:-10.3,dir:'dn'}
+    ],42,{up:'#16a34a',dn:'#dc2626'});
+    buildBars('ph-bars',[
+      {l:'"in recent years"',v:34.0,dir:'up'},{l:'"comprehensive analysis"',v:31.0,dir:'up'},
+      {l:'"it is important to note"',v:28.1,dir:'up'},{l:'"this study aims to"',v:22.0,dir:'up'},
+      {l:'"in this context"',v:19.0,dir:'up'}
+    ],42,{up:'#1d4ed8',dn:'#dc2626'});
+  },50);
+});
+
+// UTILS
+const LLM_PHRASES=['potentially','in recent years','it is important to note','this study aims to','comprehensive analysis','in this context','as mentioned above','showcasing','pivotal','delve','leverage','underscore','multifaceted','nuanced','elucidate','commendable','paradigm shift','landscape','furthermore, the'];
+const PRE={may:2.30,might:1.10,could:1.11,potentially:0.80,possibly:0.67,arguably:0.40,perhaps:0.58,clearly:0.60,indeed:0.50};
+const POST={may:2.05,might:1.25,could:1.18,potentially:1.10,possibly:0.69,arguably:0.32,perhaps:0.52,clearly:0.69,indeed:0.56};
+
+function tok(t){return t.toLowerCase().replace(/[^a-z\s]/g,' ').split(/\s+/).filter(Boolean);}
+function mattr(ws,w){const ww=Math.min(w||50,ws.length);if(!ws.length)return 0;if(ws.length<ww)return new Set(ws).size/ws.length;let s=0,n=ws.length-ww+1;for(let i=0;i<n;i++){const sl=ws.slice(i,i+ww);s+=new Set(sl).size/ww;}return s/n;}
+function hapax(ws){const f={};ws.forEach(w=>f[w]=(f[w]||0)+1);return ws.length?Object.values(f).filter(v=>v===1).length/ws.length:0;}
+function cnt(t,m){return(t.toLowerCase().match(new RegExp('\\b'+m+'\\b','g'))||[]).length;}
+
+function setBtnLoad(id,on){
+  const b=document.getElementById(id);
+  if(on){b.disabled=true;b.innerHTML='<span class="spin">↻</span> Analyzing...';}
+  else{b.disabled=false;b.textContent=b.dataset.lbl;}
+}
+
+async function callClaude(prompt){
+  const r=await fetch('/api/analyze',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({prompt})
+  });
+  const d=await r.json();
+  if(d.error) return 'Error: '+d.error;
+  return d.text||'(no response)';
+}
+
+// ANALYZER
+document.getElementById('an-txt').addEventListener('input',function(){
+  document.getElementById('an-wc').textContent=this.value.trim().split(/\s+/).filter(Boolean).length+' words';
+});
+
+async function runAnalyzer(){
+  const text=document.getElementById('an-txt').value.trim();if(text.length<50)return;
+  setBtnLoad('an-btn',true);
+  const ws=tok(text);
+  const ttr=mattr(ws);const hap=hapax(ws);
+  const found=LLM_PHRASES.filter(p=>text.toLowerCase().includes(p));
+  const llmPct=Math.min(100,Math.round(found.length/LLM_PHRASES.length*100*2.5));
+  const ttrEl=document.getElementById('an-ttr');
+  ttrEl.textContent=ttr.toFixed(3);
+  ttrEl.style.color=ttr>0.530?'var(--up)':ttr>0.518?'#92400e':'var(--dn)';
+  const hapEl=document.getElementById('an-hap');
+  hapEl.textContent=hap.toFixed(3);
+  hapEl.style.color=hap>0.40?'var(--up)':hap>0.39?'#92400e':'var(--dn)';
+  const llmEl=document.getElementById('an-llm');
+  llmEl.textContent=llmPct+'%';
+  llmEl.style.color=llmPct<20?'var(--up)':llmPct<50?'#92400e':'var(--dn)';
+  document.getElementById('an-ph').innerHTML=found.length===0
+    ?'<p style="font-size:13px;color:var(--muted);padding:.5rem 0">No LLM-characteristic phrases detected.</p>'
+    :found.map(p=>`<div class="mrow"><span style="font-style:italic;color:var(--muted)">"${p}"</span><span class="hit">detected</span></div>`).join('');
+  const vd=document.getElementById('an-vd');const vt=document.getElementById('an-vt');
+  if(llmPct<20&&ttr>0.530){vd.className='verdict vok';vt.textContent='Low LLM signature. Diversity above corpus pre-LLM mean (0.532). Consistent with pre-2023 scientific writing.';}
+  else if(llmPct>50||ttr<0.515){vd.className='verdict vbad';vt.textContent='High LLM signature. Diversity below post-LLM corpus mean (0.518) and multiple characteristic phrases detected.';}
+  else{vd.className='verdict vwarn';vt.textContent='Mixed signal. Some LLM features present, diversity in transitional range between corpus baselines.';}
+  document.getElementById('an-out').style.display='block';
+  const aiEl=document.getElementById('an-ai');aiEl.textContent='Interpreting…';
+  try{
+    aiEl.textContent=await callClaude(`You are a computational linguist. Analyze this scientific text for LLM influence using Gugu (2026) methodology.\n\nText: "${text.slice(0,600)}"\n\nMetrics: MATTR=${ttr.toFixed(3)} (pre-LLM mean: 0.532; post-LLM: 0.518). Hapax richness=${hap.toFixed(3)} (pre: 0.421; post: 0.402). LLM phrases detected: ${found.join(', ')||'none'}.\n\nWrite 3 direct analytical sentences interpreting these results against the corpus statistics. No hedging.`);
+  }catch(e){aiEl.textContent='Claude API error: '+e.message;}
+  setBtnLoad('an-btn',false);
+}
+
+// COMPARE
+async function runCompare(){
+  const topic=document.getElementById('cmp-topic').value.trim();if(!topic)return;
+  setBtnLoad('cmp-btn',true);
+  document.getElementById('cmp-out').style.display='block';
+  document.getElementById('cmp-pre').textContent='Generating…';
+  document.getElementById('cmp-post').textContent='Generating…';
+  document.getElementById('cmp-diffs').innerHTML='';
+  document.getElementById('cmp-explain').textContent='Analyzing…';
+  try{
+    const res=await callClaude(`Generate two 90-word scientific abstracts on: "${topic}"\n\nVERSION A (pre-LLM, 2020-2022 style): varied vocabulary, some passive voice, hedge with "may"/"arguably", distinctive word choices. NO: "potentially", "in recent years", "comprehensive", "leverage", "nuanced", "pivotal".\n\nVERSION B (post-LLM, 2023-2024 style): use "potentially" at least once, open with "In recent years" or "This study aims to", use "comprehensive" or "leverage" or "underscore", active voice, smooth but less distinctive.\n\nRespond in EXACTLY this format:\nPRE_LLM_TEXT: [text]\nPOST_LLM_TEXT: [text]\nDIFFERENCES: [3 specific differences, comma-separated]\nEXPLANATION: [2 sentences on what this shows]`);
+    const preM=res.match(/PRE_LLM_TEXT:\s*([\s\S]+?)(?=POST_LLM_TEXT:)/);
+    const postM=res.match(/POST_LLM_TEXT:\s*([\s\S]+?)(?=DIFFERENCES:)/);
+    const diffM=res.match(/DIFFERENCES:\s*([\s\S]+?)(?=EXPLANATION:)/);
+    const expM=res.match(/EXPLANATION:\s*([\s\S]+?)$/);
+    const preT=preM?preM[1].trim():'(failed)';
+    const postT=postM?postM[1].trim():'(failed)';
+    function hl(t){let h=t;LLM_PHRASES.forEach(p=>{h=h.replace(new RegExp('('+p+')','gi'),'<mark class="llm">$1</mark>');});return h;}
+    document.getElementById('cmp-pre').innerHTML=preT;
+    document.getElementById('cmp-post').innerHTML=hl(postT);
+    const pw=tok(preT);const qw=tok(postT);
+    const pt=mattr(pw);const qt=mattr(qw);const ph=hapax(pw);const qh=hapax(qw);
+    let pl=0,ql=0;LLM_PHRASES.forEach(p=>{if(preT.toLowerCase().includes(p))pl++;if(postT.toLowerCase().includes(p))ql++;});
+    const de=document.getElementById('cmp-diffs');
+    function dr(lbl,pv,qv,fmt){
+      const diff=qv-pv;const pct=pv?Math.abs(diff/pv*100).toFixed(1):0;
+      const c=diff<0?'var(--dn)':'var(--up)';const arr=diff<0?'↓':'↑';
+      de.innerHTML+=`<div class="mrow"><span style="color:var(--muted);font-size:13px">${lbl}</span><span style="font-size:12px;display:flex;gap:12px"><span style="color:var(--up)">pre: ${fmt(pv)}</span><span style="color:var(--dn)">post: ${fmt(qv)}</span><span style="font-weight:600;color:${c}">${arr} ${pct}%</span></span></div>`;
+    }
+    dr('Type-Token Ratio',pt,qt,v=>v.toFixed(3));
+    dr('Hapax richness',ph,qh,v=>v.toFixed(3));
+    de.innerHTML+=`<div class="mrow"><span style="color:var(--muted);font-size:13px">LLM phrases detected</span><span style="font-size:12px;display:flex;gap:12px"><span style="color:var(--up)">pre: ${pl}</span><span style="color:var(--dn)">post: ${ql}</span><span style="font-weight:600;color:${ql>pl?'var(--dn)':'var(--up)'}">${ql>pl?'↑ more':'same'}</span></span></div>`;
+    if(diffM){diffM[1].split(',').forEach(d=>{de.innerHTML+=`<div class="mrow"><span style="font-size:13px;color:var(--muted)">${d.trim()}</span></div>`;});}
+    document.getElementById('cmp-explain').textContent=expM?expM[1].trim():'The two abstracts demonstrate the homogenization shift documented in the corpus.';
+  }catch(e){document.getElementById('cmp-pre').textContent='Error: '+e.message;}
+  setBtnLoad('cmp-btn',false);
+}
+
+// TEMPLATE DETECTOR
+const TMPLS=[
+  {id:'E-01',name:'Background → Gap → Purpose',sigs:['while previous','limited attention','this study aims','address this gap'],pre:12.4,post:18.2},
+  {id:'E-02',name:'Research question → Methods → Findings',sigs:['we investigate','we examine','using a dataset','results show'],pre:9.1,post:12.7},
+  {id:'E-03',name:'"In recent years" opening',sigs:['in recent years','over the past','in the last decade'],pre:7.2,post:9.3},
+  {id:'E-04',name:'Systematic review frame',sigs:['systematic review','inclusion criteria','studies were identified','meta-analysis'],pre:6.8,post:8.4},
+  {id:'E-05',name:'Contribution enumeration',sigs:['three contributions','this paper contributes','first, we','second, we'],pre:5.9,post:7.1},
+  {id:'E-06',name:'Motivating statistics opening',sigs:['approximately','million people','percent of','significant burden'],pre:5.2,post:6.7},
+];
+async function runTemplate(){
+  const text=document.getElementById('tpl-txt').value.trim();if(text.length<50)return;
+  setBtnLoad('tpl-btn',true);
+  const tl=text.toLowerCase();
+  const scored=TMPLS.map(t=>({...t,score:t.sigs.filter(s=>tl.includes(s)).length/t.sigs.length})).sort((a,b)=>b.score-a.score);
+  document.getElementById('tpl-matches').innerHTML=scored.slice(0,3).map(t=>`
+    <div class="smatch">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.25rem">
+        <span style="font-size:13px;font-weight:600;color:var(--navy)">${t.id} — ${t.name}</span>
+        <span style="font-size:11px;font-weight:600;color:var(--dn)">+${(t.post-t.pre).toFixed(1)}pp post-LLM</span>
+      </div>
+      <div class="sbar"><span style="font-size:11px;color:var(--muted);width:38px">match</span>
+        <div class="strack"><div class="sfill" style="width:${Math.round(t.score*100)}%"></div></div>
+        <span style="font-size:12px;font-weight:600;min-width:34px">${Math.round(t.score*100)}%</span>
+      </div>
+    </div>`).join('');
+  document.getElementById('tpl-out').style.display='block';
+  const ex=document.getElementById('tpl-expl');ex.textContent='Interpreting…';
+  try{
+    ex.textContent=await callClaude(`Analyze this abstract for rhetorical template matching (Gugu, 2026 methodology).\n\nAbstract: "${text.slice(0,500)}"\nBest match: ${scored[0].id} — ${scored[0].name} (score: ${Math.round(scored[0].score*100)}%, increased ${scored[0].pre}% → ${scored[0].post}% post-LLM).\n\nIn 3 sentences: what template does this follow, what does it mean for homogenization, and does it suggest LLM influence or established convention?`);
+  }catch(e){ex.textContent='Error: '+e.message;}
+  setBtnLoad('tpl-btn',false);
+}
+
+// MARKER PROBE
+async function runMarkers(){
+  const text=document.getElementById('mk-txt').value.trim();if(text.length<50)return;
+  setBtnLoad('mk-btn',true);
+  const wc=tok(text).length;
+  const markers=['may','might','could','potentially','possibly','arguably','perhaps','clearly','indeed'];
+  const norm={};markers.forEach(m=>norm[m]=wc?+(cnt(text,m)/wc*1000).toFixed(2):0);
+  document.getElementById('mk-tbl').innerHTML=markers.map(m=>{
+    const v=norm[m];const p=PRE[m];const q=POST[m];
+    const trend=q>p?'post-LLM ↑':'pre-LLM ↓';const tc=q>p?'var(--dn)':'var(--up)';
+    const bar=Math.round(Math.min(v,3)/3*100);const bc=q>p?'#dc2626':'#16a34a';
+    return `<div style="padding:8px 0;border-bottom:1px solid var(--border)">
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
+        <span style="font-style:italic;color:var(--muted)">"${m}"</span>
+        <span style="display:flex;gap:10px;font-size:12px">
+          <span style="color:var(--up)">pre: ${p}</span><span style="color:var(--dn)">post: ${q}</span>
+          <span style="font-weight:600;color:${tc}">${trend}</span>
+          <span style="font-weight:700">yours: ${v}</span>
+        </span>
+      </div>
+      <div class="progress"><div class="pf" style="width:${bar}%;background:${bc}"></div></div>
+    </div>`;
+  }).join('');
+  document.getElementById('mk-out').style.display='block';
+  const pv=norm['potentially']||0;const av=norm['arguably']||0;
+  const vd=document.getElementById('mk-vd');const vt=document.getElementById('mk-vt');
+  if(pv>1.0||av<0.2){vd.className='verdict vbad';vt.textContent=`Post-LLM marker profile. "Potentially" at ${pv}/1k (post-LLM corpus: 1.10) and low "arguably" (${av}) matches the paper's characteristic post-LLM epistemic pattern.`;}
+  else if(av>0.35&&pv<0.85){vd.className='verdict vok';vt.textContent=`Pre-LLM marker profile. "Arguably" at ${av}/1k (pre-LLM: 0.40) and moderate "potentially" (${pv}) is consistent with pre-2023 epistemic conventions.`;}
+  else{vd.className='verdict vwarn';vt.textContent='Mixed marker profile. Epistemic distribution falls between pre-LLM and post-LLM corpus baselines.';}
+  setBtnLoad('mk-btn',false);
+}
+</script>
+</body>
+</html>
